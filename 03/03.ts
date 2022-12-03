@@ -1,0 +1,100 @@
+import * as fs from "fs"
+const filePath = "C:/CodingProjects/AdventOfCode2022/03/input.txt"
+const input = fs.readFileSync(filePath, "utf8").split("\r\n")
+
+type Priority = number
+
+class Rucksack {
+    allContents: string[]
+    compartment1: string
+    compartment2: string
+    constructor(x: string)
+    {
+        this.allContents = x.split("")
+        this.compartment1 = x.slice(0, x.length/2)
+        this.compartment2 = x.slice(x.length/2, x.length)
+    }
+
+    static getPriority(x: string): Priority
+    {
+        let str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        return str.indexOf(x) + 1
+    }
+
+    findError(): Priority
+    {
+        let comp1 = this.compartment1.split("")
+        let comp2 = this.compartment2.split("")
+        let err: Priority = 0
+
+        comp1.forEach((val1) =>
+        {
+            if (comp2.some((val2) => val1 === val2))
+            {
+                err = Rucksack.getPriority(val1)
+            }
+        })
+
+        return err
+
+    }
+
+    findBadge(ruck2: Rucksack, ruck3: Rucksack): Priority
+    {
+        let sack1 = this.allContents
+        let sack2 = ruck2.allContents
+        let sack3 = ruck3.allContents
+        
+        for (let item1 in sack1)
+        {
+            for (let item2 in sack2)
+            {
+                if (sack1[item1] === sack2[item2])
+                {
+                    for (let item3 in sack3)
+                    {
+                        if (sack2[item2] === sack3[item3])
+                        {
+                            return Rucksack.getPriority(sack3[item3])
+                        }
+                    }
+                }
+            }
+        }
+
+        return 0
+
+    }
+}
+
+let total = 0
+
+/* //Part1
+for (let sack in input)
+{
+    let rucksack = new Rucksack(input[sack])
+    let err = rucksack.findError()
+    console.log("Errors:", err)
+    total += err
+}
+
+console.log("Errors total:", total) */
+
+//Part2
+let badgeTotal = 0
+
+for (let x = 0; x < input.length; x = x + 3)
+{
+    let sack1 = new Rucksack(input[x])
+    let sack2 = new Rucksack(input[x + 1])
+    let sack3 = new Rucksack(input[x + 2])
+
+    let badge = sack1.findBadge(sack2, sack3)
+    console.log("Badge:", badge)
+    badgeTotal += badge
+}
+
+console.log("Badge Total:", badgeTotal)
+
+
+

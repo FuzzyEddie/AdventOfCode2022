@@ -138,7 +138,8 @@ function roundScore(me: Choice, them: Choice): number
     return me.vs(them) + me.act
 }
 
-function roundScoreByResult(them: Choice, outcome: Win|Lose|Draw): number{
+function roundScoreByResult(them: Choice, outcome: Win|Lose|Draw): number
+{
     return them.forOutcome(outcome) + outcome
 }
 
