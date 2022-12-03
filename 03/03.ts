@@ -24,16 +24,17 @@ class Rucksack {
     findError(): Priority
     {
         let comp1 = this.compartment1.split("")
-        let comp2 = this.compartment2.split("")
+        let comp2 = this.compartment2
         let err: Priority = 0
 
-        comp1.forEach((val1) =>
+        for (let val1 in comp1)
         {
-            if (comp2.some((val2) => val1 === val2))
+            if (comp2.indexOf(comp1[val1]) > -1)
             {
                 err = Rucksack.getPriority(val1)
+                break
             }
-        })
+        }
 
         return err
 
