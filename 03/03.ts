@@ -5,12 +5,12 @@ const input = fs.readFileSync(filePath, "utf8").split("\r\n")
 type Priority = number
 
 class Rucksack {
-    allContents: string[]
+    allContents: string
     compartment1: string
     compartment2: string
     constructor(x: string)
     {
-        this.allContents = x.split("")
+        this.allContents = x
         this.compartment1 = x.slice(0, x.length/2)
         this.compartment2 = x.slice(x.length/2, x.length)
     }
@@ -41,24 +41,18 @@ class Rucksack {
 
     findBadge(ruck2: Rucksack, ruck3: Rucksack): Priority
     {
-        let sack1 = this.allContents
+        let sack1 = this.allContents.split("")
         let sack2 = ruck2.allContents
         let sack3 = ruck3.allContents
         
         for (let item1 in sack1)
         {
-            for (let item2 in sack2)
+            let x = sack2.indexOf(sack1[item1])
+            let y = sack3.indexOf(sack1[item1])
+
+            if (x > -1 && y > -1)
             {
-                if (sack1[item1] === sack2[item2])
-                {
-                    for (let item3 in sack3)
-                    {
-                        if (sack2[item2] === sack3[item3])
-                        {
-                            return Rucksack.getPriority(sack3[item3])
-                        }
-                    }
-                }
+                return Rucksack.getPriority(sack1[item1])
             }
         }
 
@@ -95,6 +89,3 @@ for (let x = 0; x < input.length; x = x + 3)
 }
 
 console.log("Badge Total:", badgeTotal)
-
-
-

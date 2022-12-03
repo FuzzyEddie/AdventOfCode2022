@@ -1,49 +1,67 @@
 "use strict";
-exports.__esModule = true;
-var fs = require("fs");
-var filePath = "C:/CodingProjects/AdventOfCode2022/03/input.txt";
-var input = fs.readFileSync(filePath, "utf8").split("\r\n");
-var Rucksack = /** @class */ (function () {
-    function Rucksack(x) {
-        this.allContents = x.split("");
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const fs = __importStar(require("fs"));
+const filePath = "C:/CodingProjects/AdventOfCode2022/03/input.txt";
+const input = fs.readFileSync(filePath, "utf8").split("\r\n");
+class Rucksack {
+    constructor(x) {
+        this.allContents = x;
         this.compartment1 = x.slice(0, x.length / 2);
         this.compartment2 = x.slice(x.length / 2, x.length);
     }
-    Rucksack.getPriority = function (x) {
-        var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static getPriority(x) {
+        let str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         return str.indexOf(x) + 1;
-    };
-    Rucksack.prototype.findError = function () {
-        var comp1 = this.compartment1.split("");
-        var comp2 = this.compartment2.split("");
-        var err = 0;
-        comp1.forEach(function (val1) {
-            if (comp2.some(function (val2) { return val1 === val2; })) {
+    }
+    findError() {
+        let comp1 = this.compartment1.split("");
+        let comp2 = this.compartment2.split("");
+        let err = 0;
+        comp1.forEach((val1) => {
+            if (comp2.some((val2) => val1 === val2)) {
                 err = Rucksack.getPriority(val1);
             }
         });
         return err;
-    };
-    Rucksack.prototype.findBadge = function (ruck2, ruck3) {
-        var sack1 = this.allContents;
-        var sack2 = ruck2.allContents;
-        var sack3 = ruck3.allContents;
-        for (var item1 in sack1) {
-            for (var item2 in sack2) {
-                if (sack1[item1] === sack2[item2]) {
-                    for (var item3 in sack3) {
-                        if (sack2[item2] === sack3[item3]) {
-                            return Rucksack.getPriority(sack3[item3]);
-                        }
-                    }
-                }
+    }
+    findBadge(ruck2, ruck3) {
+        let sack1 = this.allContents.split("");
+        let sack2 = ruck2.allContents;
+        let sack3 = ruck3.allContents;
+        for (let item1 in sack1) {
+            let x = sack2.indexOf(sack1[item1]);
+            let y = sack3.indexOf(sack1[item1]);
+            if (x > -1 && y > -1) {
+                return Rucksack.getPriority(sack1[item1]);
             }
         }
         return 0;
-    };
-    return Rucksack;
-}());
-var total = 0;
+    }
+}
+let total = 0;
 /* //Part1
 for (let sack in input)
 {
@@ -55,13 +73,14 @@ for (let sack in input)
 
 console.log("Errors total:", total) */
 //Part2
-var badgeTotal = 0;
-for (var x = 0; x < input.length; x = x + 3) {
-    var sack1 = new Rucksack(input[x]);
-    var sack2 = new Rucksack(input[x + 1]);
-    var sack3 = new Rucksack(input[x + 2]);
-    var badge = sack1.findBadge(sack2, sack3);
+let badgeTotal = 0;
+for (let x = 0; x < input.length; x = x + 3) {
+    let sack1 = new Rucksack(input[x]);
+    let sack2 = new Rucksack(input[x + 1]);
+    let sack3 = new Rucksack(input[x + 2]);
+    let badge = sack1.findBadge(sack2, sack3);
     console.log("Badge:", badge);
     badgeTotal += badge;
 }
 console.log("Badge Total:", badgeTotal);
+//# sourceMappingURL=03.js.map

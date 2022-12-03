@@ -98,3 +98,4 @@ function topThreeElves(file) {
 // let greediestElf = getGreedyElf(filePath)
 let topThreeTotal = topThreeElves(filePath).reduce((val1, val2) => val1 + val2);
 console.log("Top three elves have", topThreeTotal);
+//# sourceMappingURL=01.js.map

@@ -5,15 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch index.ts",
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
+            "runtimeArgs": [
+                "-r",
+                "C:\\Users\\esits\\AppData\\Roaming\\npm\\node_modules\\ts-node\\register"
             ],
-            "program": "${workspaceFolder}\\01\\01.ts",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
+            "args": [
+                "${workspaceFolder}/03/03.ts"
             ]
         }
     ]
