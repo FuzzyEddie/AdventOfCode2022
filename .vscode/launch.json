@@ -13,7 +13,7 @@
                 "C:\\Users\\esits\\AppData\\Roaming\\npm\\node_modules\\ts-node\\register"
             ],
             "args": [
-                "${workspaceFolder}/04/04.ts"
+                "${workspaceFolder}/05/05.ts"
             ]
         }
     ]
