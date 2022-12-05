@@ -31,9 +31,7 @@ class Storage {
         console.log("Storage initialized:")
         for (let x in stack)
         {
-            let str = ""
-            for (let y in stack[x]) str += stack[x][y]
-            console.log(x, str)
+            console.log(x, stack[x].join())
         }
     }
 
@@ -57,15 +55,9 @@ class Storage {
                 order.amount = this.stacks[order.from].length
             }
 
-            for (let x = order.amount - 1; x >= 0; x--)
-            {
-                this.stacks[order.to].push(this.stacks[order.from][this.stacks[order.from].length - 1 - x])
-            }
-
-            for (let x = 0; x < order.amount; x++)
-            {
-                this.stacks[order.from].pop()
-            }
+            let moving = this.stacks[order.from].slice(0 - order.amount)
+            this.stacks[order.from].splice(0 - order.amount)
+            this.stacks[order.to] = this.stacks[order.to].concat(moving)
         }
     }
 }
@@ -76,6 +68,8 @@ class Order {
     to: number
     constructor(input: string)
     {
+        //Input Format:
+        //Move <amount> from <stack> to <stack>
         let x = input.split(' ')
         this.amount = parseInt(x[1])
         this.from = parseInt(x[3]) - 1
