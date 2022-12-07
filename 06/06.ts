@@ -7,21 +7,11 @@ function findStart(input: string, length: number): number
 
     for (let index = 0; index < input.length - length; index++)
     {
-        let slice = Array.from(input.slice(index, index + length)).sort()
-        let match = false
-
-        while (slice.length > 1)
+        let slice = new Set(input.slice(index, index + length))
+        if (slice.size === length)
         {
-            let check = slice.shift()
-            if (check == slice[0])
-            {
-                match = true
-                break
-            }
-        }
-        
-        if (match === false) return index + length
-        
+            return index + length
+        }   
     }
 
     return -1
