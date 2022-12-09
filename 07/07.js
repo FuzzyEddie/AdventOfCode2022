@@ -24,7 +24,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
-const filePath = "C:/CodingProjects/AdventOfCode2022/07/testinput.txt";
+const filePath = "C:/CodingProjects/AdventOfCode2022/07/input.txt";
 const input = fs.readFileSync(filePath, "utf8").split("\r\n");
 class FileSystem {
     constructor(input) {
@@ -131,7 +131,7 @@ function underLimit(count = 0, node, limit) {
     return count;
 }
 function dirDeleteSize(fileSys) {
-    var smallest = 0;
+    var smallest = fileSys.root.size;
     const limit = fileSys.root.size - 40000000;
     let findDir = (node) => {
         node.children.forEach((n) => {
