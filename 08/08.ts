@@ -44,7 +44,7 @@ class Orchard {
     {
       switch (dirs[x])
       {
-        case 0:
+        case Cards.NORTH:
 
           if (origin[1] == 0) return true
 
@@ -55,7 +55,7 @@ class Orchard {
 
           return true
           
-        case 1:
+        case Cards.EAST:
 
           if (origin[0] == this.trees[0].length - 1) return true
 
@@ -66,7 +66,7 @@ class Orchard {
 
           return true
 
-        case 2:
+        case Cards.SOUTH:
 
           if (origin[1] == this.trees.length - 1) return true
 
@@ -77,7 +77,7 @@ class Orchard {
 
           return true
 
-        case 3:
+        case Cards.WEST:
 
           if (origin[0] == 0) return true
 
@@ -114,7 +114,7 @@ class Orchard {
     {
       switch (dirs[x])
       {
-        case 0:
+        case Cards.NORTH:
 
           if (origin[1] == 0) return 0
           
@@ -129,7 +129,7 @@ class Orchard {
             count++
           }
           
-        case 1:
+        case Cards.EAST:
 
           if (origin[0] == this.trees[0].length - 1) return 0
 
@@ -144,7 +144,7 @@ class Orchard {
             count++
           }
 
-        case 2:
+        case Cards.SOUTH:
 
           if (origin[1] == this.trees.length - 1) return 0
 
@@ -159,7 +159,7 @@ class Orchard {
             count++
           }
 
-        case 3:
+        case Cards.WEST:
 
           if (origin[0] == 0) return 0
 
@@ -183,7 +183,7 @@ class Orchard {
 
 let orchard = new Orchard(input)
 
-/*
+
 let visible = 0
 for (let x = 0; x < orchard.trees.length; x++)
 {
@@ -197,7 +197,7 @@ for (let x = 0; x < orchard.trees.length; x++)
 }
 
 console.log(visible)
-*/
+
 
 let highScore = 0
 
