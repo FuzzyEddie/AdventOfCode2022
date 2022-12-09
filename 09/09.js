@@ -26,47 +26,104 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
 const filePath = "C:/CodingProjects/AdventOfCode2022/09/testinput.txt";
 const input = fs.readFileSync(filePath, "utf8").split("\r\n");
-class Rope {
-    constructor() {
-        this.head = [0, 0];
-        this.tail = [0, 0];
-        this.visited = new Set("0,0");
+// type Coordinate = [number, number]
+class Coordinate {
+    constructor(pos) {
+        this.pos = pos;
     }
-    move(command) {
-        for (let x = command.dist; x > 0; x--) {
-            let oldPos = Array.from(this.head);
-            switch (command.dir) {
-                case "R":
-                    this.head = [this.head[0] + 1, this.head[1]];
-                    break;
-                case "L":
-                    this.head = [this.head[0] - 1, this.head[1]];
-                    break;
-                case "U":
-                    this.head = [this.head[0], this.head[1] + 1];
-                    break;
-                case "D":
-                    this.head = [this.head[0], this.head[1] - 1];
-                    break;
-                default:
-                    throw new Error("Invalid direction");
-            }
-            if (Math.abs(this.head[0] - this.tail[0]) > 1 || Math.abs(this.head[1] - this.tail[1]) > 1) {
-                this.tail = oldPos;
-                this.visited.add(oldPos.join());
-            }
+    follow(leader) {
+        let newPos = Array.from(this.pos);
+        if (this.pos[0] - leader.pos[0] < -1 && this.pos[1] - leader.pos[1] < -1) {
+            newPos[0]++;
+            newPos[1]++;
         }
+        else if (this.pos[0] - leader.pos[0] < -1 && this.pos[1] - leader.pos[1] > 1) {
+            newPos[0]++;
+            newPos[1]--;
+        }
+        else if (this.pos[0] - leader.pos[0] > 1 && this.pos[1] - leader.pos[1] < -1) {
+            newPos[0]--;
+            newPos[1]++;
+        }
+        else if (this.pos[0] - leader.pos[0] > 1 && this.pos[1] - leader.pos[1] > 1) {
+            newPos[0]--;
+            newPos[1]--;
+        }
+        else if (this.pos[0] - leader.pos[0] < -1) {
+            newPos[0]++;
+        }
+        else if (this.pos[0] - leader.pos[0] > 1) {
+            newPos[0]--;
+        }
+        else if (this.pos[1] - leader.pos[1] < -1) {
+            newPos[1]++;
+        }
+        else if (this.pos[1] - leader.pos[1] > 1) {
+            newPos[1]--;
+        }
+        this.pos = newPos;
     }
 }
 class Command {
     constructor(input) {
-        this.dir = input.charAt(0);
-        this.dist = parseInt(input.charAt(2));
+        let i = input.split(' ');
+        this.dir = i[0];
+        this.dist = parseInt(i[1]);
+        Command.totalDist += this.dist;
     }
 }
-let rope = new Rope();
+Command.totalDist = 0;
+class Rope {
+    constructor(length) {
+        this.head = new Coordinate([0, 0]);
+        this.tail = [];
+        this.visited = new Set(["0,0"]);
+        this.moves = 0;
+        while (this.tail.length < length) {
+            this.tail.push(new Coordinate([0, 0]));
+        }
+    }
+    move(command) {
+        for (let x = command.dist; x > 0; x--) {
+            switch (command.dir) {
+                case "R":
+                    this.head.pos[0]++;
+                    break;
+                case "L":
+                    this.head.pos[0]--;
+                    break;
+                case "U":
+                    this.head.pos[1]++;
+                    break;
+                case "D":
+                    this.head.pos[1]--;
+                    break;
+                default:
+                    throw new Error("Invalid direction");
+            }
+            this.moves++;
+            for (let x in this.tail) {
+                let y = parseInt(x);
+                if (y == 0) {
+                    this.tail[y].follow(this.head);
+                }
+                else {
+                    this.tail[y].follow(this.tail[y - 1]);
+                }
+            }
+            if (!this.visited.has(this.tail[this.tail.length - 1].pos.join())) {
+                this.visited.add(this.tail[this.tail.length - 1].pos.join());
+                console.log("New Pos:", this.tail[this.tail.length - 1].pos.join());
+            }
+        }
+    }
+}
+let rope = new Rope(9);
 input.forEach((val) => {
     rope.move(new Command(val));
+    let logString = rope.head.pos.join() + " | ";
+    rope.tail.forEach((val) => logString += val.pos.join() + " | ");
+    console.log(logString);
 });
 console.log(rope.visited.size);
 //# sourceMappingURL=09.js.map
