@@ -24,7 +24,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = __importStar(require("fs"));
-const filePath = "C:/CodingProjects/AdventOfCode2022/09/testinput.txt";
+const filePath = "C:/CodingProjects/AdventOfCode2022/09/input.txt";
 const input = fs.readFileSync(filePath, "utf8").split("\r\n");
 // type Coordinate = [number, number]
 class Coordinate {
@@ -33,34 +33,38 @@ class Coordinate {
     }
     follow(leader) {
         let newPos = Array.from(this.pos);
-        if (this.pos[0] - leader.pos[0] < -1 && this.pos[1] - leader.pos[1] < -1) {
+        let xDiff = this.pos[0] - leader.pos[0];
+        let yDiff = this.pos[1] - leader.pos[1];
+        let totalDist = Math.abs(xDiff) + Math.abs(yDiff);
+        if (xDiff < 0 && yDiff < 0 && totalDist > 2) {
             newPos[0]++;
             newPos[1]++;
         }
-        else if (this.pos[0] - leader.pos[0] < -1 && this.pos[1] - leader.pos[1] > 1) {
+        else if (xDiff < 0 && yDiff > 0 && totalDist > 2) {
             newPos[0]++;
             newPos[1]--;
         }
-        else if (this.pos[0] - leader.pos[0] > 1 && this.pos[1] - leader.pos[1] < -1) {
+        else if (xDiff > 0 && yDiff < 0 && totalDist > 2) {
             newPos[0]--;
             newPos[1]++;
         }
-        else if (this.pos[0] - leader.pos[0] > 1 && this.pos[1] - leader.pos[1] > 1) {
+        else if (xDiff > 0 && yDiff > 0 && totalDist > 2) {
             newPos[0]--;
             newPos[1]--;
         }
-        else if (this.pos[0] - leader.pos[0] < -1) {
+        else if (xDiff < -1) {
             newPos[0]++;
         }
-        else if (this.pos[0] - leader.pos[0] > 1) {
+        else if (xDiff > 1) {
             newPos[0]--;
         }
-        else if (this.pos[1] - leader.pos[1] < -1) {
+        else if (yDiff < -1) {
             newPos[1]++;
         }
-        else if (this.pos[1] - leader.pos[1] > 1) {
+        else if (yDiff > 1) {
             newPos[1]--;
         }
+        // console.log(leader.pos.join(), "moved.", this.pos.join(), ">", newPos.join())
         this.pos = newPos;
     }
 }
@@ -121,9 +125,9 @@ class Rope {
 let rope = new Rope(9);
 input.forEach((val) => {
     rope.move(new Command(val));
-    let logString = rope.head.pos.join() + " | ";
-    rope.tail.forEach((val) => logString += val.pos.join() + " | ");
-    console.log(logString);
+    // let logString = rope.head.pos.join() + " | "
+    // rope.tail.forEach((val) => logString += val.pos.join() + " | ")
+    // console.log(logString)
 });
 console.log(rope.visited.size);
 //# sourceMappingURL=09.js.map
