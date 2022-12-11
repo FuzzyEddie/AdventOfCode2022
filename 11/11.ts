@@ -85,6 +85,7 @@ for (let t = 0; t < rounds; t++){
   })
 }
 
-// troop.monkeys.sort((a, b) => b.mBuis - a.mBuis)
-// let totalMbuis = troop.monkeys[0].mBuis * troop.monkeys[1].mBuis
+troop.monkeys.sort((a, b) => b.mBuis - a.mBuis)
+let totalMbuis = troop.monkeys[0].mBuis * troop.monkeys[1].mBuis
+console.log(totalMbuis)
 debugger
