@@ -1,12 +1,13 @@
 import fs from "fs"
 import path from "path"
-const input = fs.readFileSync(path.resolve(__dirname, "./testinput.txt"), "utf8").split("\r\n")
+const input = fs.readFileSync(path.resolve(__dirname, "./input.txt"), "utf8").split("\r\n")
 
 type MonkeyInfo = [string, string, string, string, string]
 
 class Monkey {
   items: number[]
   mBuis = 0
+  divisor: number
   inspect: Function
   throwTo: Function
 
@@ -35,9 +36,9 @@ class Monkey {
     let test = parseInt(input[2].replace("Test: divisible by ", ""))
     let ifTrue = parseInt(input[3].replace("If true: throw to monkey ", ""))
     let ifFalse = parseInt(input[4].replace("If false: throw to monkey ", ""))
+    this.divisor = test
     this.throwTo = new Function(`
       let item = this.items[0]
-      console.log(this.items[0], "${test}", item % ${test})
       if (item % ${test} == 0)
       {
         return ${ifTrue}
@@ -65,20 +66,24 @@ class Troop {
 }
 
 let troop = new Troop(input)
-const rounds = 20
+let primeProd = 1
+troop.monkeys.forEach((a) => primeProd *= a.divisor)
+
+const rounds = 10_000
 const knownRounds = [1, 20, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000]
 
 for (let t = 0; t < rounds; t++){
-  if (knownRounds.includes(t))
-  {
-    debugger
-  }
+  // if (knownRounds.includes(t))
+  // {
+  //   debugger
+  // }
   troop.monkeys.forEach((monkey) =>
   {
     while (monkey.items.length > 0)
     {
       monkey.inspect(monkey.items[0])
-      monkey.items[0] = Math.floor(monkey.items[0] / 3)
+      // monkey.items[0] = Math.floor(monkey.items[0] / 3)
+      monkey.items[0] = monkey.items[0] % primeProd
       troop.monkeys[monkey.throwTo()].items.push(monkey.items[0])
       monkey.items.shift()
     }
