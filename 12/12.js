@@ -10,7 +10,7 @@ class Node {
     constructor(x, y, val) {
         this.type = Node;
         this.dist = Infinity;
-        this.prev = [];
+        this.prev = new Set();
         this.goal = false;
         this.loc = [x, y];
         const elev = "abcdefghijklmnopqrstuvwxyz";
@@ -58,7 +58,7 @@ class Landscape {
             let up = this.getNode([loc[0], loc[1] - 1]);
             if (up.val - c.val <= 1) {
                 up.prev = c.prev;
-                up.prev.push(c.loc.join());
+                up.prev.add(c.loc.join());
                 nodes.push(up);
             }
         }
@@ -67,7 +67,7 @@ class Landscape {
             let down = this.getNode([loc[0], loc[1] + 1]);
             if (down.val - c.val <= 1) {
                 down.prev = c.prev;
-                down.prev.push(c.loc.join());
+                down.prev.add(c.loc.join());
                 nodes.push(down);
             }
         }
@@ -76,7 +76,7 @@ class Landscape {
             let left = this.getNode([loc[0] - 1, loc[1]]);
             if (left.val - c.val <= 1) {
                 left.prev = c.prev;
-                left.prev.push(c.loc.join());
+                left.prev.add(c.loc.join());
                 nodes.push(left);
             }
         }
@@ -85,7 +85,7 @@ class Landscape {
             let right = this.getNode([loc[0] + 1, loc[1]]);
             if (right.val - c.val <= 1) {
                 right.prev = c.prev;
-                right.prev.push(c.loc.join());
+                right.prev.add(c.loc.join());
                 nodes.push(right);
             }
         }
@@ -147,7 +147,7 @@ class Landscape {
     }
 }
 let landscape = new Landscape(input);
-// let goal = landscape.findGoal()
-let goal = landscape.findTrail();
-console.log(goal.prev.length);
+let goal = landscape.findGoal();
+// let goal = landscape.findTrail()
+console.log(goal.prev.size);
 //# sourceMappingURL=12.js.map

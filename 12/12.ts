@@ -8,7 +8,7 @@ class Node {
   type = Node
   loc: Coordinates
   dist = Infinity
-  prev: string[] = []
+  prev: Set<string> = new Set()
   val: number
   goal = false
 
@@ -68,7 +68,7 @@ class Landscape {
       if (up.val - c.val <= 1)
       {
         up.prev = c.prev
-        up.prev.push(c.loc.join())
+        up.prev.add(c.loc.join())
         nodes.push(up)
       }
     }
@@ -79,7 +79,7 @@ class Landscape {
       if (down.val - c.val <= 1)
       {
         down.prev = c.prev
-        down.prev.push(c.loc.join())
+        down.prev.add(c.loc.join())
         nodes.push(down)
       }
     }
@@ -90,7 +90,7 @@ class Landscape {
       if (left.val - c.val <= 1)
       {
         left.prev = c.prev
-        left.prev.push(c.loc.join())
+        left.prev.add(c.loc.join())
         nodes.push(left)
       }
     }
@@ -101,7 +101,7 @@ class Landscape {
       if (right.val - c.val <= 1)
       {
         right.prev = c.prev
-        right.prev.push(c.loc.join())
+        right.prev.add(c.loc.join())
         nodes.push(right)
       }
     }
@@ -180,6 +180,6 @@ class Landscape {
 
 
 let landscape = new Landscape(input)
-// let goal = landscape.findGoal()
-let goal = landscape.findTrail()
-console.log(goal.prev.length)
+let goal = landscape.findGoal()
+// let goal = landscape.findTrail()
+console.log(goal.prev.size)
